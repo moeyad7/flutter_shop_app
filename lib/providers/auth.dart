@@ -14,16 +14,18 @@ class Auth with ChangeNotifier {
     return token != null;
   }
 
-  String get token{
-    if(_expiryDate != null && _expiryDate.isAfter(DateTime.now()) && _token != null){
+  String get token {
+    if (_expiryDate != null &&
+        _expiryDate.isAfter(DateTime.now()) &&
+        _token != null) {
       return _token;
     }
     return null;
   }
 
-  String get userId{
+  String get userId {
     return _userId;
-  } 
+  }
 
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
@@ -65,5 +67,12 @@ class Auth with ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     return _authenticate(email, password, "signInWithPassword");
+  }
+
+  void logout() {
+    _token = null;
+    _expiryDate = null;
+    _userId = null;
+    notifyListeners();
   }
 }
